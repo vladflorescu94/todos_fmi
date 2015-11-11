@@ -1,8 +1,12 @@
 class TodosController < ApplicationController
 
   def index
-    @todos = session[:todos]
-    @todos = [] unless @todos
+    if params.has_key? :q
+      @todos = Todo.where("title LIKE ?", "%#{params[:q]}%")
+    else
+      @todos = Todo.all
+    end
+
   end
 
   def new
@@ -10,13 +14,13 @@ class TodosController < ApplicationController
   end
 
   def create
-    todo = {title: params[:title]}
-    if session[:todos].nil?
-      session[:todos] = [todo]
-    else
-      session[:todos] << todo
-    end
+    todo = Todo.new title: params[:title], assigned_to: params[:assigned_to]
 
+    if todo.save
+      flash[:notice] = "Todo was saved successfully"
+    else
+      flash[:notice] = "Todo was not saved"
+    end
 
     redirect_to "/todos"
   end

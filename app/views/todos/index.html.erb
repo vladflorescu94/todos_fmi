@@ -1,12 +1,20 @@
 <%= link_to "New Todo", "/todos/new" %>
 
-<br />
-<br />
+<h2>My TODOs</h2>
+
+<% if flash[:notice] %>
+  <p style="background-color: teal"><%= flash[:notice] %></p>
+<% end %>
 
 <ul>
   <% @todos.each do |todo| %>
     <li>
-      <%= todo["title"] %>
+      <%= todo.title %>
     </li>
   <% end %>
 </ul>
+
+<%= form_tag ({action: "index"}), {method: "get"} do %>
+  <%= text_field_tag :q %>
+  <%= submit_tag "filter" %>
+<% end %>
