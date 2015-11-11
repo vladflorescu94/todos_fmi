@@ -1,0 +1,12 @@
+<%= link_to "New Todo", "/todos/new" %>
+
+<br />
+<br />
+
+<ul>
+  <% @todos.each do |todo| %>
+    <li>
+      <%= todo["title"] %>
+    </li>
+  <% end %>
+</ul>
