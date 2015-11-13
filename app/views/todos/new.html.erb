@@ -1,3 +1,11 @@
+<div style="margin-bottom: 20px">
+  <%= link_to "Back to index", "/todos" %>
+</div>
+
+<% if flash[:notice] %>
+  <p style="background-color: #FFA6A6; max-width: 300px"> <%= flash[:notice] %> </p>
+<% end %>
+
 <%= form_tag ({action: "create"}) do %>
   <%= text_field_tag :title %>
   <%= submit_tag "Create" %>

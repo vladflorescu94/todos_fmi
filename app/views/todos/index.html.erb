@@ -3,18 +3,23 @@
 <h2>My TODOs</h2>
 
 <% if flash[:notice] %>
-  <p style="background-color: teal"><%= flash[:notice] %></p>
+  <span style="background-color: #C8D6FF"><%= flash[:notice] %></span>
 <% end %>
 
-<ul>
+<ul id="todos-list">
   <% @todos.each do |todo| %>
-    <li>
-      <%= todo.title %>
-    </li>
+    <li data-todo-id=<%="#{todo.id}"%>>
+      <input style="display: none" type="text">
+      <div style="display: inline">
+        <span> <%= todo.title %> </span>
+        <a href="#">edit</a>
+        <%= link_to "delete", todo, method: :delete %>
+      </div>
+     </li>
   <% end %>
 </ul>
 
-<%= form_tag ({action: "index"}), {method: "get"} do %>
+<%= form_tag "/todos", method: "get" do %>
   <%= text_field_tag :q %>
   <%= submit_tag "filter" %>
 <% end %>

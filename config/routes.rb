@@ -2,9 +2,12 @@ Rails.application.routes.draw do
 
   root "todos#index"
 
-  get "/todos" => "todos#index"
-  get "/todos/new" => "todos#new"
-  post "/todos" => "todos#create"
+  resources :todos do
+    member do
+      put :change_title
+    end
+  end
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.
