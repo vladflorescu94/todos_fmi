@@ -3,10 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ()->
-  $('#todos-list li a').click (e)->
+  $('#todos-list li a:first-of-type').click (e)-> # clicking on edit link
     todoLi = $(e.target.parentElement.parentElement)
-    todoLi.children('div').css('display', 'none')
-    todoLi.children('input').css('display', 'initial').focus();
+    toggleEditableTodo(todoLi)
+    todoLi.children('input').val(todoLi.find('span').first().text().trim())
 
   $('#todos-list li input').keydown (e)->
     if e.keyCode == 13
@@ -17,9 +17,7 @@ $(document).ready ()->
 
       $.ajax({
         url:          "todos/#{todoId}/change_title"
-        data:         JSON.stringify {
-                        title: todoLi.children('input').first().val()
-                      }
+        data:         JSON.stringify title: todoLi.children('input').first().val()
         type:        'PUT'
         contentType: 'application/json; charset=utf-8',
         dataType:    'json'
@@ -27,7 +25,17 @@ $(document).ready ()->
       .then (response)->
         todoLi.find('span').text(response.title)
       .always ()->
-        todoLi.children('div').css('display', 'initial')
-        todoLi.children('input').css('display', 'none');
+        toggleEditableTodo(todoLi)
 
+  toggleEditableTodo = (todoListItem)->
+    innerDiv   = todoListItem.children('div')
+    innerInput = todoListItem.children('input')
+
+    if innerDiv.css('display') == 'none'
+      innerDiv.css('display', 'initial')
+      innerInput.css('display', 'none')
+    else
+      innerDiv.css('display', 'none')
+      innerInput.css('display', 'initial')
+      innerInput.focus()
 

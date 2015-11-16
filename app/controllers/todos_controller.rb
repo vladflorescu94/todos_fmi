@@ -1,7 +1,7 @@
 class TodosController < ApplicationController
 
   def create
-    todo = Todo.new title: params[:title], assigned_to: params[:assigned_to]
+    todo = Todo.new title: params[:title].strip , assigned_to: params[:assigned_to]
 
     if todo.save
       flash[:notice] = "Todo was saved successfully."

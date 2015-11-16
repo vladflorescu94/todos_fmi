@@ -11,7 +11,7 @@
     <li data-todo-id=<%="#{todo.id}"%>>
       <input style="display: none" type="text">
       <div style="display: inline">
-        <span> <%= todo.title %> </span>
+        <span><%= todo.title %></span>
         <a href="#">edit</a>
         <%= link_to "delete", todo, method: :delete %>
       </div>
