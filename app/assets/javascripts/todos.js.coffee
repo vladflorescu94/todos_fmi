@@ -4,7 +4,7 @@
 
 $(document).ready ()->
   $('#todos-list li a:first-of-type').click (e)-> # clicking on edit link
-    todoLi = $(e.target.parentElement.parentElement)
+    todoLi = $(e.target).closest('li')
     toggleEditableTodo(todoLi)
     todoLi.children('input').val(todoLi.find('span').first().text().trim())
 
@@ -12,7 +12,7 @@ $(document).ready ()->
     if e.keyCode == 13
       e.preventDefault()
 
-      todoLi = $(e.target.parentElement)
+      todoLi = $(e.target).closest('li')
       todoId = todoLi.data("todo-id")
 
       $.ajax({

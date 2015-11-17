@@ -21,3 +21,5 @@ module Todos
     # config.i18n.default_locale = :de
   end
 end
+
+Sass::Script::Number.precision = 8
