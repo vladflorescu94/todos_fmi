@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Todo.create({ title: "These", assigned_to: "Me"});
+Todo.create({ title: "Are", assigned_to: "Me" });
+Todo.create({ title: "By", assigned_to: "Me" });
+Todo.create({ title: "Default", assigned_to: "Me"});

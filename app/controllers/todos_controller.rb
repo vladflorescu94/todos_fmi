@@ -1,7 +1,11 @@
 class TodosController < ApplicationController
 
+  def new
+    @users = User.all
+  end
+
   def create
-    todo = Todo.new title: params[:title].strip , assigned_to: params[:assigned_to]
+    todo = Todo.new title: params[:title].strip , user_id: params[:user_id]
 
     if todo.save
       flash[:notice] = "Todo was saved successfully."
@@ -17,6 +21,10 @@ class TodosController < ApplicationController
       @todos = Todo.where("title LIKE ?", "%#{params[:q]}%")
     else
       @todos = Todo.all
+    end
+
+    if params[:user_id].present?
+      @todos = @todos.where(user_id: params[:user_id])
     end
   end
 

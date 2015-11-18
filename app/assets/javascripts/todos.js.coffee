@@ -4,6 +4,7 @@
 
 $(document).ready ()->
   $('#todos-list li a:first-of-type').click (e)-> # clicking on edit link
+    e.preventDefault();
     todoLi = $(e.target).closest('li')
     toggleEditableTodo(todoLi)
     todoLi.children('input').val(todoLi.find('span').first().text().trim())
@@ -23,7 +24,7 @@ $(document).ready ()->
         dataType:    'json'
       })
       .then (response)->
-        todoLi.find('span').text(response.title)
+        todoLi.find('span').first().text(response.title)
       .always ()->
         toggleEditableTodo(todoLi)
 
@@ -39,3 +40,5 @@ $(document).ready ()->
       innerInput.css('display', 'initial')
       innerInput.focus()
 
+  $('#user-select-form select').first().on 'change', (e)->
+    $('#user-select-form').trigger('submit')

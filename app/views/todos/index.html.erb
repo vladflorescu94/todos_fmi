@@ -1,6 +1,8 @@
 <div class="container">
   <div class="row col-sm-6 col-sm-offset-3 todo-wrapping-div">
-    <%= link_to "New Todo", "/todos/new", class: "pull-right" %>
+
+    <%= button_to "New Todo", "/todos/new", method: :get,
+        class: "pull-right btn btn-sm btn-primary" %>
 
     <div class="todo-content col-sm-offset-2 col-sm-8">
       <h2>My TODOs</h2>
@@ -9,26 +11,46 @@
         <span style="background-color: #C8D6FF"><%= flash[:notice] %></span>
       <% end %>
 
-      <ul id="todos-list">
-        <% @todos.each do |todo| %>
-          <li data-todo-id=<%="#{todo.id}"%>>
-            <input style="display: none" type="text">
-            <div style="display: inline">
-              <span><%= todo.title %></span>
-              <div style="display: inline" class="pull-right">
-                <a href="#">edit</a>
-                <%= link_to "delete", todo, method: :delete %>
+      <% if @todos.blank? %>
+        <p style="padding-left: 40px; margin: 25px 0"> No todos available. </p>
+      <% else %>
+        <ul id="todos-list">
+          <% @todos.each do |todo| %>
+            <li data-todo-id=<%="#{todo.id}"%>>
+              <input style="display: none" type="text">
+              <div style="display: inline">
+                <span><%= todo.title %></span>
+                <span>[<%= todo.user.present? ? todo.user.name : "Not assigned" %>]</span>
+                <div style="display: inline" class="pull-right">
+                  <a href="#">edit</a>
+                  <%= link_to "delete", todo, method: :delete %>
+                </div>
+                </span>
               </div>
-              </span>
-            </div>
-           </li>
-        <% end %>
-      </ul>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
     </div>
 
-    <%= form_tag "/todos", method: "get", class: "form-inline" do %>
+    <%= form_tag "/todos", method: "get", class: "form-inline pull-left" do %>
       <%= text_field_tag :q , nil, {class: "form-control input-sm"} %>
       <%= submit_tag "filter", class: "btn btn-sm btn-primary" %>
     <% end %>
+
+    <div class="pull-right">
+      <%= form_tag "/todos", method: "get",
+          id: "user-select-form", class: "form-inline pull-right" do %>
+        <label style="margin-right:8px">User</label>
+
+        <%= select_tag :user_id,
+            options_from_collection_for_select(
+              User.all, :id, :name, params[:user_id]
+            ),
+            include_blank: :All,
+            class: :'input-sm' %>
+      <% end %>
+    </div>
+
   </div>
 </div>
